@@ -109,44 +109,71 @@ What is the time and space complexity of the counting sort algorithm?
 '''
 
 def counting_sort(arr, maximum=None):
-    # if the max is None
-    if maximum is None:
-        # set maximum as 0
-        maximum = 0
-        # loop through the array
-        for i in range(0, len(arr)):
-            # if the value in the array is greater than max
-            if arr[i] > maximum:
-                # set max as equal to the value in the array
-                maximum = arr[i]
+    ## v1
+    # if maximum is None:
+    #     maximum = 0
+    #     for i in range(0, len(arr)):
+    #         if arr[i] > maximum:
+    #             maximum = arr[i]
     
-    # else: 
-    # buckets are equal to the value at the first index multiplied by one
-    # more than the maximum
-    buckets = [0] * (maximum + 1)
-    # instantiate a sortedIndex
-    sortedIndex = 0
-    
-    # for an element in the array
-    for i in range(0, len(arr)):
-        # check if element is negative
-        if arr[i] < int(0):
-            # print
-            print("Error, negative numbers not allowed in Count Sort")
-        
-        else:
-            # buckets += 1 for each corresponding element in this array
-            buckets[arr[i]] += 1
+    # buckets = [0] * (maximum + 1)
+    # sortedIndex = 0
 
-    # for a particular bucket in buckets
-    for j in range(0, len(buckets)):
-        # while the bucket value is greater than 0
-        while buckets[j] > 0:
-            # the sortedIndex of arr equals 1
-            arr[sortedIndex] = j
-            # add sortedIndex
-            sortedIndex += 1
-            # subtract from the specific bucket
-            buckets[i] -= 1
+    # for i in range(0, len(arr)):
+    #     if arr[i] > 0:
+    #         buckets[arr[i]] += 1
+    #     else: 
+    #         print("Error, negative numbers not allowed in Count Sort")
     
+    # for i in range(0, len(buckets)):
+    #     while (buckets[i] > 0):
+    #         arr[sortedIndex] = i
+    #         sortedIndex += 1
+    #         buckets[i] -= 1
+
+    # ## v2
+    # m = maximum + 1
+    # # instantiate counter
+    # count = [0] * m
+
+    # # for an element in the array
+    # for e in arr:
+    #     # add count of occurences
+    #     count[e] += 1
+    
+    # # instantiate index
+    # index = 0
+    # # for element in m
+    # for e in range(m):
+    #     # for i in the count of e
+    #     for i in range(count[e]):
+    #         # set the value as the element e
+    #         arr[i] = e
+    #         # add to index
+    #         index[m] += 1
+
+    ## v3
+    # if there is no array
+    if not arr:
+        # return array
+        return arr
+    # if any value in the array is negative
+    if any(x < 0 for x in arr):
+        # return error message
+        return "Error, negative numbers not allowed in Count Sort"
+    # else instantiate an array of 0s whose length is the max value + 1
+    # (+1 because we start the count at 0)
+    else:
+        buckets = [0] * (max(arr) + 1)
+    # loop through the items in the array
+    for i in range(len(arr)):
+        # count array to store the count of each unique object
+        buckets[i] += 1
+        # Modify the count array such that each element at each index 
+        # stores the sum of previous counts (keeping a running count)
+        buckets[i] += buckets[i - 1]
+        # Output each object from the input sequence followed by 
+        # decreasing its count by 1
+        arr[i] = buckets[i] - 1
+
     return arr
