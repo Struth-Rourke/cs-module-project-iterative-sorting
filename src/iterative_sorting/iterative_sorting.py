@@ -132,25 +132,16 @@ def counting_sort(arr, maximum=None):
     #         buckets[i] -= 1
 
     # ## v2
-    # m = maximum + 1
-    # # instantiate counter
-    # count = [0] * m
-
-    # # for an element in the array
-    # for e in arr:
-    #     # add count of occurences
-    #     count[e] += 1
-    
-    # # instantiate index
-    # index = 0
-    # # for element in m
-    # for e in range(m):
-    #     # for i in the count of e
-    #     for i in range(count[e]):
-    #         # set the value as the element e
-    #         arr[i] = e
-    #         # add to index
-    #         index[m] += 1
+    # counter = [0] * (maximum + 1)
+    # for i in arr:
+    #     counter[i] += 1
+ 
+    # ndx = 0;
+    # for i in range(len(counter)):
+    #     while 0 < counter[i]:
+    #         arr[ndx] = i
+    #         ndx += 1
+    #         counter[i] -= 1
 
     ## v3
     # if there is no array
