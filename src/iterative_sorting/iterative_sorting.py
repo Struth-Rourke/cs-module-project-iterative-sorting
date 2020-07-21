@@ -2,23 +2,91 @@
 def selection_sort(arr):
     # loop through n-1 elements
     for i in range(0, len(arr) - 1):
+        # setting cur_index
         cur_index = i
+        # setting smallest_index equal to the cur_index
         smallest_index = cur_index
         # TO-DO: find next smallest element
         # (hint, can do in 3 loc)
         # Your code here
 
+        # loop through the elements in the list
+        for j in range(cur_index + 1, len(arr)):
+            # if the element is < the current smallest
+            if arr[j] < arr[smallest_index]:
+                # set the smallest index value equal to j
+                smallest_index = j
+                # print(arr)
 
-        # TO-DO: swap
-        # Your code here
+        # swap the minimum with the current position
+        arr[smallest_index], arr[cur_index] = arr[cur_index], arr[smallest_index]
+
+        ## ALT Code:
+        # # tracker value for an element in the array
+        # smallest_value = arr[i]
+        # # for a value in the length of the array, that is len(arr) - 1
+        # # ** referencing the index
+        # for j in range(i, len(arr)):
+        #     # if that value is less than the smallest
+        #     if arr[j] < smallest_value:
+        #         # set the smallest_index equal to j
+        #         smallest_index = j
+        #         # set the smallest_value equal to the array value
+        #         smallest_value = arr[j]
+
+        # # TO-DO: swap
+        # # Your code here
+        # # temp tracker variable
+        # temp = arr[cur_index]
+        # # set the cur_index equal to the smallest_index
+        # arr[cur_index] = arr[smallest_index]
+        # # set the smallest_index equal to the temp
+        # arr[smallest_index] = temp
 
     return arr
 
 
+## CHECK TEST:
+# arr = [1,7,3,8,4,2,9,6,10,5]
+# print(selection_sort(arr))
+
+
 # TO-DO:  implement the Bubble Sort function below
 def bubble_sort(arr):
-    # Your code here
+    # Set swap variable
+    swapped = True
+    # while swapped = True
+    while swapped:
+        # are the elements swapped?
+        swapped = False
+        # loop through n-1 elements (last element has nothing to it's right)
+        for i in range(0, len(arr) - 1):
+            # set element positions (left)
+            left = i
+            # set element positions (right)
+            right = i + 1
+            # if left > right
+            if arr[left] > arr[right]:
+                # swap positions
+                arr[left], arr[right] = arr[right], arr[left]
+                # set swapped equal to True to reiterate through the list
+                swapped = True
 
+    # ## ALT Code:
+    # # Your code here
+    # # loop through n-1 elements
+    # for i in range(0, len(arr) - 1):
+    #     # elements in ((n-1) - (n+1))
+    #     for j in range(0, len(arr) - (i + 1)):
+    #         # if the element indexed higher in the list is lower than the
+    #         # current element value in the list
+    #         if arr[j] > arr[j + 1]:
+    #             # set a temp variable to the array value j
+    #             temp = arr[j]
+    #             # set the array value j as equal to the value that was indexed higher
+    #             arr[j] = arr[j + 1]
+    #             # and set the indexed higher value as the temo 
+    #             arr[j + 1] = temp
 
     return arr
 
@@ -39,8 +107,64 @@ buckets.
 
 What is the time and space complexity of the counting sort algorithm?
 '''
-def counting_sort(arr, maximum=None):
-    # Your code here
 
+def counting_sort(arr, maximum=None):
+    ## v1
+    # if maximum is None:
+    #     maximum = 0
+    #     for i in range(0, len(arr)):
+    #         if arr[i] > maximum:
+    #             maximum = arr[i]
+    
+    # buckets = [0] * (maximum + 1)
+    # sortedIndex = 0
+
+    # for i in range(0, len(arr)):
+    #     if arr[i] > 0:
+    #         buckets[arr[i]] += 1
+    #     else: 
+    #         print("Error, negative numbers not allowed in Count Sort")
+    
+    # for i in range(0, len(buckets)):
+    #     while (buckets[i] > 0):
+    #         arr[sortedIndex] = i
+    #         sortedIndex += 1
+    #         buckets[i] -= 1
+
+    # ## v2
+    # counter = [0] * (maximum + 1)
+    # for i in arr:
+    #     counter[i] += 1
+ 
+    # ndx = 0;
+    # for i in range(len(counter)):
+    #     while 0 < counter[i]:
+    #         arr[ndx] = i
+    #         ndx += 1
+    #         counter[i] -= 1
+
+    ## v3
+    # if there is no array
+    if not arr:
+        # return array
+        return arr
+    # if any value in the array is negative
+    if any(x < 0 for x in arr):
+        # return error message
+        return "Error, negative numbers not allowed in Count Sort"
+    # else instantiate an array of 0s whose length is the max value + 1
+    # (+1 because we start the count at 0)
+    else:
+        buckets = [0] * (max(arr) + 1)
+    # loop through the items in the array
+    for i in range(len(arr)):
+        # count array to store the count of each unique object
+        buckets[i] += 1
+        # Modify the count array such that each element at each index 
+        # stores the sum of previous counts (keeping a running count)
+        buckets[i] += buckets[i - 1]
+        # Output each object from the input sequence followed by 
+        # decreasing its count by 1
+        arr[i] = buckets[i] - 1
 
     return arr
